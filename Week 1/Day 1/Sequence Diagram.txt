@@ -1,0 +1,22 @@
+@startuml
+
+title "Find Local Restaurants Sequence Diagram"
+
+Actor User
+Boundary "App UI"
+Control "App API"
+Control "Restaurant Controller"
+Database "Restaurant DB"
+
+User -> "App UI" : Enter address
+"App UI" -> "App API" : FindLocalRestaurants(Address)
+"App API" -> "Restaurant Controller" : FindAddressesByLocation(Address)
+"Restaurant Controller" -> "Restaurant DB" : Some SQL statement
+
+"Restaurant DB" -> "Restaurant Controller" : Restaurants
+"Restaurant Controller" -> "App API" : LocalRestaurants
+"App API" -> "App UI" : LocalRestaurants
+"App UI" -> "User" : Display restaurants
+
+
+@enduml
