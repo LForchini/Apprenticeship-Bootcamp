@@ -1,6 +1,4 @@
-@startuml
-
-title "Find Local Restaurants Sequence Diagram"
+nd Local Restaurants Sequence Diagram"
 
 Actor User
 Boundary "App UI"
@@ -10,6 +8,9 @@ Database "Restaurant DB"
 
 User -> "App UI" : Enter address
 "App UI" -> "App API" : FindLocalRestaurants(Address)
+"App API" -> "App API" : CheckValidAddress(Address)
+
+alt Valid Address
 "App API" -> "Restaurant Controller" : FindAddressesByLocation(Address)
 "Restaurant Controller" -> "Restaurant DB" : Some SQL statement
 
@@ -17,6 +18,9 @@ User -> "App UI" : Enter address
 "Restaurant Controller" -> "App API" : LocalRestaurants
 "App API" -> "App UI" : LocalRestaurants
 "App UI" -> "User" : Display restaurants
-
+else Invalid Address
+"App API" -> "App UI" : Invalid Address
+"App UI" -> "User" : Error, invalid address
+end
 
 @enduml
