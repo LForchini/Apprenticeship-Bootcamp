@@ -10,6 +10,16 @@ class Passenger {
     this.name = name;
     this.passportNumber = passportNumber;
     this.seatNumber = seatNumber;
+
+    if (
+      typeof name != "string" ||
+      typeof passportNumber != "string" ||
+      typeof seatNumber != "string"
+    )
+      throw new TypeError(
+        "Name, Passport Number, and Seat Number must be strings"
+      );
+
     this.bags = [];
   }
 

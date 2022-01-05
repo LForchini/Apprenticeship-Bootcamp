@@ -16,15 +16,21 @@ describe("Plane", () => {
     expect(plane.passengers[0]).toBe(passenger);
   });
 
+  test("require a valid goodybag giving function", () => {
+    expect(() => {
+      const plane = new Plane("Type", () => 1);
+    }).toThrowError("Goodybag must return a Bag");
+  });
+
   test("successfully give the Passenger a goodybag", () => {
     const goodybagMock = jest.fn(() => {
-      new Bag(1);
+      return new Bag(1);
     });
     const plane = new Plane("Type", goodybagMock);
     const passenger = new Passenger("Name", "Passport Number", "Seat Number");
     plane.board(passenger);
     expect(goodybagMock).toHaveBeenCalled();
     expect(passenger.bags.length).toBe(1);
-    expect(passenger.bags[0]).toBe(goodybagMock.mock.calls[0].value);
+    expect(goodybagMock).toHaveReturnedWith(passenger.bags[0]);
   });
 });

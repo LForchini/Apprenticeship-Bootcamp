@@ -4,17 +4,20 @@ const Bag = require("./Bag");
  * Represents a plane.
  * @constructor
  * @param {string} type The type of plane.
+ * @param {Function} goodybag A function which returns a goodybag to give passenger
  */
 class Plane {
-  constructor(
-    type,
-    goodybag = () => {
-      new Bag(1);
-    }
-  ) {
+  constructor(type, goodybag = null) {
     this.type = type;
     this.passengers = [];
-    this.goodybag = goodybag;
+
+    this.goodybag = () => {
+      return new Bag(1);
+    };
+    if (goodybag) this.goodybag = goodybag;
+
+    if (this.goodybag().constructor.name !== "Bag")
+      throw TypeError("Goodybag must return a Bag");
   }
 
   /**

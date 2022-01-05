@@ -9,6 +9,18 @@ describe("CrewMember", () => {
     expect(crewMember.staffNumber).toBe("Staff Number");
   });
 
+  test("can only be initialised with valid name, position and staff numbers", () => {
+    expect(() => {
+      const crewMember = new CrewMember(1, "Position", "Staff Number");
+    }).toThrowError("Name, Position, and Staff Number must be strings");
+    expect(() => {
+      const crewMember = new CrewMember("Name", 1, "Staff Number");
+    }).toThrowError("Name, Position, and Staff Number must be strings");
+    expect(() => {
+      const crewMember = new CrewMember("Name", "Position", 1);
+    }).toThrowError("Name, Position, and Staff Number must be strings");
+  });
+
   test("adds Bag successfully", () => {
     const crewMember = new CrewMember("Name", "Position", "Staff Number");
     const bag = new Bag(10);

@@ -5,6 +5,10 @@
  */
 class Bag {
   constructor(weight) {
+    if (typeof weight != "number" || weight < 1) {
+      throw new TypeError("Weight must be a number and greater than 0");
+    }
+
     this.weight = weight;
   }
 

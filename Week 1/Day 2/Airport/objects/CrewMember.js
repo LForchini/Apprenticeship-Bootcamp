@@ -10,6 +10,14 @@ class CrewMember {
     this.name = name;
     this.position = position;
     this.staffNumber = staffNumber;
+
+    if (
+      typeof name != "string" ||
+      typeof position != "string" ||
+      typeof staffNumber != "string"
+    )
+      throw new TypeError("Name, Position, and Staff Number must be strings");
+
     this.bags = [];
   }
 
