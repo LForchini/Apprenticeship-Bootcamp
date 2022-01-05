@@ -3,12 +3,12 @@ const Passenger = require("./Passenger");
 const Plane = require("./Plane");
 
 describe("Plane", () => {
-  test("Successful plane creation", () => {
+  test("is created", () => {
     const plane = new Plane("Type");
     expect(plane.type).toBe("Type");
   });
 
-  test("Successfully add a passenger to the plane", () => {
+  test("successfully adds a Passenger", () => {
     const plane = new Plane("Type");
     const passenger = new Passenger("Name", "Passport Number", "Seat Number");
     plane.board(passenger);
@@ -16,7 +16,7 @@ describe("Plane", () => {
     expect(plane.passengers[0]).toBe(passenger);
   });
 
-  test("Successfully give the passenger a goodybag", () => {
+  test("successfully give the Passenger a goodybag", () => {
     const goodybagMock = jest.fn(() => {
       new Bag(1);
     });
