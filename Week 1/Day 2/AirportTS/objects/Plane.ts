@@ -1,5 +1,5 @@
 import Passenger from "./Passenger";
-import Bag from "./Bag"
+import Bag from "./Bag";
 
 /**
  * Represents a plane.
@@ -7,14 +7,22 @@ import Bag from "./Bag"
  * @param {string} type The type of plane.
  */
 class Plane {
-  type:string
+  type: string;
   passengers: Passenger[];
   goodybag: Function;
 
-  constructor(type: string, goodybag: Function = (()=>{new Bag(1)})) {
+  constructor(
+    type: string,
+    goodybag: Function = () => {
+      return new Bag(1);
+    }
+  ) {
     this.type = type;
     this.passengers = [];
     this.goodybag = goodybag;
+
+    if (this.goodybag().constructor.name !== "Bag")
+      throw TypeError("Goodybag must return a Bag");
   }
 
   /**

@@ -1,4 +1,4 @@
-import Bag from "./Bag"
+import Bag from "./Bag";
 
 /**
  * Represents a passenger.
@@ -9,11 +9,20 @@ import Bag from "./Bag"
  */
 class Passenger {
   name: string;
-  passportNumber: string
-  seatNumber: string
+  passportNumber: string;
+  seatNumber: string;
   bags: Bag[];
 
   constructor(name: string, passportNumber: string, seatNumber: string) {
+    if (
+      typeof name != "string" ||
+      typeof passportNumber != "string" ||
+      typeof seatNumber != "string"
+    )
+      throw new TypeError(
+        "Name, Passport Number, and Seat Number must be strings"
+      );
+
     this.name = name;
     this.passportNumber = passportNumber;
     this.seatNumber = seatNumber;

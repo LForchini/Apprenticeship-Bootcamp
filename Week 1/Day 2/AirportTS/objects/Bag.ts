@@ -4,10 +4,13 @@
  * @param {number} weight - The weight of the bag.
  */
 class Bag {
-
   private weight: number;
 
   constructor(weight: number) {
+    if (typeof weight != "number" || weight < 1) {
+      throw new TypeError("Weight must be a number and greater than 0");
+    }
+
     this.weight = weight;
   }
 

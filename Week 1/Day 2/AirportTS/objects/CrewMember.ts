@@ -1,4 +1,4 @@
-import Bag from "./Bag"
+import Bag from "./Bag";
 
 /**
  * Represents a member of the flight crew.
@@ -10,10 +10,17 @@ import Bag from "./Bag"
 class CrewMember {
   name: string;
   position: string;
-  staffNumber: string
+  staffNumber: string;
   bags: Bag[];
 
   constructor(name: string, position: string, staffNumber: string) {
+    if (
+      typeof name != "string" ||
+      typeof position != "string" ||
+      typeof staffNumber != "string"
+    )
+      throw new TypeError("Name, Position, and Staff Number must be strings");
+
     this.name = name;
     this.position = position;
     this.staffNumber = staffNumber;
