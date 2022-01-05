@@ -5,7 +5,7 @@
  */
 class Bag {
 
-  weight: number;
+  private weight: number;
 
   constructor(weight: number) {
     this.weight = weight;

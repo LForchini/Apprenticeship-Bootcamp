@@ -17,3 +17,5 @@ class Plane {
     this.passengers.push(passenger);
   }
 }
+
+module.exports = Plane;

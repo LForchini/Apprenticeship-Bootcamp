@@ -22,3 +22,5 @@ class Plane {
     this.passengers.push(passenger);
   }
 }
+
+export = Plane;
