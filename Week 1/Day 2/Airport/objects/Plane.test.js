@@ -23,7 +23,7 @@ describe("Plane", () => {
     const plane = new Plane("Type", goodybagMock);
     const passenger = new Passenger("Name", "Passport Number", "Seat Number");
     plane.board(passenger);
-    expect(goodybagMock.mock.calls.length).toBe(1);
+    expect(goodybagMock).toHaveBeenCalled();
     expect(passenger.bags.length).toBe(1);
     expect(passenger.bags[0]).toBe(goodybagMock.mock.calls[0].value);
   });
