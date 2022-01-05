@@ -1,3 +1,4 @@
+const Bag = require("./Bag");
 const Passenger = require("./Passenger");
 const Plane = require("./Plane");
 
@@ -13,5 +14,15 @@ describe("Plane", () => {
     plane.board(passenger);
     expect(plane.passengers.length).toBe(1);
     expect(plane.passengers[0]).toBe(passenger);
+  });
+
+  test("Successfully give the passenger a goodybag", () => {
+    const goodybagMock = jest.fn(() => {
+      new Bag(1);
+    });
+    const plane = new Plane("Type", goodybagMock);
+    const passenger = new Passenger("Name", "Passport Number", "Seat Number");
+    plane.board(passenger);
+    expect(goodybagMock.mock.calls.length).toBe(1);
   });
 });
