@@ -1,6 +1,6 @@
-const Bag = require("../objects/Bag");
-
 describe("Bag", () => {
+  const Bag = require("../objects/Bag");
+
   test("is successfully created", () => {
     const bag = new Bag(10);
     expect(bag.weight).toBe(10);

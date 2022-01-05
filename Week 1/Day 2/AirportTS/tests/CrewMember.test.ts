@@ -1,7 +1,7 @@
-const CrewMember = require("../objects/CrewMember");
-const Bag = require("../objects/Bag");
-
 describe("CrewMember", () => {
+  const CrewMember = require("../objects/CrewMember");
+  const Bag = require("../objects/Bag");
+
   test("is created", () => {
     const crewMember = new CrewMember("Name", "Position", "Staff Number");
     expect(crewMember.name).toBe("Name");

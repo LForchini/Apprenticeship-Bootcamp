@@ -1,7 +1,7 @@
-const Passenger = require("../objects/Passenger");
-const Bag = require("../objects/Bag");
-
 describe("Passenger", () => {
+  const Passenger = require("../objects/Passenger");
+  const Bag = require("../objects/Bag");
+
   test("is created", () => {
     const passenger = new Passenger("Name", "Passport Number", "Seat Number");
     expect(passenger.name).toBe("Name");
