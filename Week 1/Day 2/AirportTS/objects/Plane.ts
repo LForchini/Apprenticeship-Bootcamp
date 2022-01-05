@@ -1,4 +1,5 @@
 import Passenger from "./Passenger";
+import Bag from "./Bag"
 
 /**
  * Represents a plane.
@@ -8,10 +9,12 @@ import Passenger from "./Passenger";
 class Plane {
   type:string
   passengers: Passenger[];
+  goodybag: Function;
 
-  constructor(type: string) {
+  constructor(type: string, goodybag: Function = (()=>{new Bag(1)})) {
     this.type = type;
     this.passengers = [];
+    this.goodybag = goodybag;
   }
 
   /**
@@ -20,6 +23,8 @@ class Plane {
    */
   board(passenger: Passenger): void {
     this.passengers.push(passenger);
+
+    passenger.addBag(this.goodybag());
   }
 }
 
