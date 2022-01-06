@@ -1,4 +1,5 @@
 import Bag from "../src/Bag";
+import CrewMember from "../src/CrewMember";
 import Passenger from "../src/Passenger";
 import Plane from "../src/Plane";
 
@@ -12,8 +13,16 @@ describe("Plane", () => {
     const plane = new Plane("Type");
     const passenger = new Passenger("Name", "Passport Number", "Seat Number");
     plane.board(passenger);
-    expect(plane.passengers.length).toBe(1);
-    expect(plane.passengers[0]).toBe(passenger);
+    expect(plane.travellers.length).toBe(1);
+    expect(plane.travellers[0]).toBe(passenger);
+  });
+
+  test("successfully adds a Crew Member", () => {
+    const plane = new Plane("Type");
+    const crewMember = new CrewMember("Name", "Position", "Staff Number");
+    plane.board(crewMember);
+    expect(plane.travellers.length).toBe(1);
+    expect(plane.travellers[0]).toBe(crewMember);
   });
 
   test("require a valid goodybag giving function", () => {
