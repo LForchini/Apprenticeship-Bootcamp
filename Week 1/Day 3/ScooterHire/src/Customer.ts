@@ -50,6 +50,7 @@ class Customer extends User {
     if (!this.current_trip) throw new TypeError("No current trip");
 
     this.current_trip.travel_time += travel_time;
+    this.current_trip.scooter.lowerCharge(travel_time);
   }
 }
 
