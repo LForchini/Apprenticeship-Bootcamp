@@ -5,7 +5,7 @@ import Bag from "./Bag";
  * @constructor
  * @param {string} name The name of the traveller.
  */
-class Traveller {
+abstract class Traveller {
   name: string;
   bags: Bag[] = [];
 
