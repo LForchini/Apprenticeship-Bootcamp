@@ -1,7 +1,7 @@
 describe("Plane", () => {
-  const Bag = require("../objects/Bag");
-  const Passenger = require("../objects/Passenger");
-  const Plane = require("../objects/Plane");
+  const Bag = require("../src/Bag");
+  const Passenger = require("../src/Passenger");
+  const Plane = require("../src/Plane");
 
   test("is created", () => {
     const plane = new Plane("Type");

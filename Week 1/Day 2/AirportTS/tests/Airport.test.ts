@@ -1,4 +1,4 @@
-const Airport = require("../objects/Airport");
+const Airport = require("../src/Airport");
 
 describe("Airport", () => {
   test("is created", () => {

@@ -1,6 +1,6 @@
 describe("CrewMember", () => {
-  const CrewMember = require("../objects/CrewMember");
-  const Bag = require("../objects/Bag");
+  const CrewMember = require("../src/CrewMember");
+  const Bag = require("../src/Bag");
 
   test("is created", () => {
     const crewMember = new CrewMember("Name", "Position", "Staff Number");

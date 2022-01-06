@@ -1,6 +1,6 @@
 describe("Passenger", () => {
-  const Passenger = require("../objects/Passenger");
-  const Bag = require("../objects/Bag");
+  const Passenger = require("../src/Passenger");
+  const Bag = require("../src/Bag");
 
   test("is created", () => {
     const passenger = new Passenger("Name", "Passport Number", "Seat Number");

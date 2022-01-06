@@ -1,6 +1,6 @@
-const Bag = require("./Bag");
-const Passenger = require("./Passenger");
-const Plane = require("./Plane");
+const Bag = require("../src/Bag");
+const Passenger = require("../src/Passenger");
+const Plane = require("../src/Plane");
 
 describe("Plane", () => {
   test("is created", () => {

@@ -1,5 +1,5 @@
 describe("Bag", () => {
-  const Bag = require("../objects/Bag");
+  const Bag = require("../src/Bag");
 
   test("is successfully created", () => {
     const bag = new Bag(10);

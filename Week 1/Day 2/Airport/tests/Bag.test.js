@@ -1,4 +1,4 @@
-const Bag = require("./Bag");
+const Bag = require("../src/Bag");
 
 describe("Bag", () => {
   test("is successfully created", () => {

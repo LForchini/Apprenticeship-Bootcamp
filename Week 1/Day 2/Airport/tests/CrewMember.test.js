@@ -1,5 +1,5 @@
-const CrewMember = require("./CrewMember");
-const Bag = require("./Bag");
+const CrewMember = require("../src/CrewMember");
+const Bag = require("../src/Bag");
 
 describe("CrewMember", () => {
   test("is created", () => {
