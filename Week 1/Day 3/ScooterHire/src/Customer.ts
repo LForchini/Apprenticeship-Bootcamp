@@ -18,18 +18,30 @@ class Customer extends User {
     this.trips = [];
   }
 
+  /**
+   * Reserve a scooter.
+   * @param scooter Scooter to reserve.
+   */
   reserve(scooter: Scooter) {
+    if (this.current_trip) throw new TypeError("Already on a trip");
+
     const index: number = Customer.customers.indexOf(this);
     this.current_trip = new Trip(index, scooter);
     scooter.reserved_by = index;
   }
 
+  /**
+   * Start a new trip with the reserved scooter.
+   */
   startTrip() {
     if (!this.current_trip) throw new TypeError("No current trip");
 
     this.current_trip.start();
   }
 
+  /**
+   * End the current trip and call the payment processor function.
+   */
   endTrip() {
     if (!this.current_trip) throw new TypeError("No current trip");
 
@@ -46,6 +58,10 @@ class Customer extends User {
     this.current_trip = null;
   }
 
+  /**
+   * Travel for a specified number of minutes.
+   * @param travel_time Amount of minutes to travel.
+   */
   travel(travel_time: number) {
     if (!this.current_trip) throw new TypeError("No current trip");
 

@@ -16,10 +16,16 @@ class Trip {
     this.price_paid = 0;
   }
 
+  /**
+   * Start the trip.
+   */
   start() {
     this.status = "Underway";
   }
 
+  /**
+   * End the trip.
+   */
   end() {
     this.status = "Finished";
   }

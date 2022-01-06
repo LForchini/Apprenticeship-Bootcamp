@@ -15,13 +15,22 @@ class Issue {
     Issue.issues.push(this);
   }
 
+  /**
+   * Assign the issue to a member of the repair crew.
+   * @param crew Crew member to assign the issue to.
+   */
   assign(crew: RepairCrew) {
     this.assigned_index = RepairCrew.staff.indexOf(crew);
     crew.assigned.push(this);
   }
 
+  /**
+   * Resolve the issue.
+   */
   resolve() {
     this.status = "Resolved";
+    if (this.scooter)
+      this.scooter.issues = this.scooter.issues.filter((x) => x != this);
   }
 }
 

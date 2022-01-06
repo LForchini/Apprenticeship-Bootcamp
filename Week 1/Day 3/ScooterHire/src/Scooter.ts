@@ -18,6 +18,10 @@ class Scooter {
     this.status = "Operational";
   }
 
+  /**
+   * Lower the amount of charge, and if the charge is under 10, raise an issue to be resolved.
+   * @param charge Amount to lower the charge by.
+   */
   lowerCharge(charge: number) {
     this.charge -= charge;
     if (this.charge < 0) this.charge = 0;
