@@ -18,4 +18,12 @@ describe("Passenger", () => {
     expect(passenger.bags.length).toBe(1);
     expect(passenger.bags[0]).toBe(bag);
   });
+
+  test("cannot add overweight bag", () => {
+    const passenger = new Passenger("Name", "Position", "Staff Number");
+    const bag = new Bag(24);
+    expect(() => {
+      passenger.addBag(bag);
+    }).toThrowError("Bag is too heavy");
+  });
 });
