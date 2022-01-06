@@ -1,0 +1,46 @@
+@startuml "Sequence Diagram"
+
+title "Scooter Hiring Sequence"
+
+Actor Customer
+Boundary UI
+Control API
+Database ScooterDB
+
+Customer -> UI : Opens map
+UI -> API : GetNearbyAvailableScooters()
+API -> ScooterDB : GetNearbyScooters()
+API <-- ScooterDB : Scooter[]
+API -> API : FilterAvailableScooters()
+UI <-- API : Scooter[]
+Customer <--UI : Highlights nearby scooters
+
+Customer -> UI : Selects scooter
+UI -> API : ReserveScooter()
+API -> ScooterDB : ReserverScooter()
+API <-- ScooterDB : boolean
+API -> API : CalculateDirections()
+UI <-- API : Directions
+Customer <-- UI : Highlights path to scooter
+
+Customer -> UI : Start Ride
+UI -> API : StartRide()
+API -> API : StartRide()
+UI <-- API : boolean
+Customer <-- UI : Confirmation
+
+Customer -> UI : Ends Ride
+UI -> API : EndRide()
+UI <- API : GetScooterStatus()
+Customer <- UI : Prompt for scooter status
+Customer --> UI : Upload image
+UI --> API : Image
+API -> ScooterDB : FreeScooter()
+API <-- ScooterDB : boolean
+API -> API : CalculateCost()
+API -> PaymentProcessor : Pay
+API <-- PaymentProcessor : Confirmation
+UI <-- API : boolean
+Customer <-- UI : Confirm end of ride and payment
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml "Use Cases"
+
+title "Use Cases"
+
+left to right direction
+
+Actor Customer
+Actor RepairCrew
+
+rectangle System {
+  Customer --> (Create an account)
+  Customer --> (Reserve a scooter)
+  Customer --> (See nearby scooters)
+  Customer --> (Start a trip)
+  Customer --> (Flag broken scooters)
+  Customer --> (Pay for a trip)
+
+  RepairCrew --> (See current issues)
+  RepairCrew --> (Find scooter locations)
+  RepairCrew --> (Mark issues as resolved)
+  RepairCrew --> (Recharge scooters)
+}
+
+@enduml

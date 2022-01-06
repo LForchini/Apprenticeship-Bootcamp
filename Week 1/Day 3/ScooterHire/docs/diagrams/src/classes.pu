@@ -1,0 +1,42 @@
+@startuml "Class Diagram"
+
+title "Class Diagram"
+
+class Customer {
+  payment information
+}
+
+class RepairCrew {
+  salary information
+}
+
+class User {
+  name
+  address
+}
+
+class Scooter {
+  location
+  charge
+  miles per percent
+  pence per minute
+  status
+}
+
+class Trip {
+  payment status
+}
+
+class Issue {
+  resolved
+  markAsResolved()
+}
+
+Customer "1" -- "*" Trip
+Trip "*" -- "1" Scooter
+Issue "*" -- "1" Scooter
+RepairCrew "1" -- "*" Issue
+User <|-- Customer
+User <|-- RepairCrew
+
+@enduml
