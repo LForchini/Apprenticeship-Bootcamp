@@ -4,6 +4,7 @@
  * @param {number} weight - The weight of the bag.
  */
 class Bag {
+  static LIMIT: number = 23;
   weight: number;
 
   constructor(weight: number) {
@@ -19,7 +20,7 @@ class Bag {
    * @returns {boolean} - Whether this bag is over the weight limit.
    */
   isOverLimit(): boolean {
-    return this.weight > 23;
+    return this.weight > Bag.LIMIT;
   }
 }
 
