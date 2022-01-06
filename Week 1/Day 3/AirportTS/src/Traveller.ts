@@ -18,7 +18,11 @@ class Traveller {
    * @param {Bag} bag Bag to assign to the passenger.
    */
   addBag(bag: Bag): void {
-    this.bags.push(bag);
+    if (!bag.isOverLimit()) {
+      this.bags.push(bag);
+    } else {
+      throw new RangeError("Bag is too heavy");
+    }
   }
 }
 

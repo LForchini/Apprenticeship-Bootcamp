@@ -10,12 +10,4 @@ describe("Passenger", () => {
     expect(passenger.seatNumber).toBe("Seat Number");
     expect(passenger).toBeInstanceOf(Traveller);
   });
-
-  test("adds Bag", () => {
-    const passenger = new Passenger("Name", "Passport Number", "Seat Number");
-    const bag = new Bag(10);
-    passenger.addBag(bag);
-    expect(passenger.bags.length).toBe(1);
-    expect(passenger.bags[0]).toBe(bag);
-  });
 });
