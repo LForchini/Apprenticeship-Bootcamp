@@ -1,6 +1,6 @@
-describe("Bag", () => {
-  const Bag = require("../src/Bag");
+import Bag from "../src/Bag";
 
+describe("Bag", () => {
   test("is successfully created", () => {
     const bag = new Bag(10);
     expect(bag.weight).toBe(10);

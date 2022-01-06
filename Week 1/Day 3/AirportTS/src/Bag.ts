@@ -4,7 +4,7 @@
  * @param {number} weight - The weight of the bag.
  */
 class Bag {
-  private weight: number;
+  weight: number;
 
   constructor(weight: number) {
     if (typeof weight != "number" || weight < 1) {

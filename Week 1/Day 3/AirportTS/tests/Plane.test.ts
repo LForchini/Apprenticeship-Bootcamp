@@ -1,8 +1,8 @@
-describe("Plane", () => {
-  const Bag = require("../src/Bag");
-  const Passenger = require("../src/Passenger");
-  const Plane = require("../src/Plane");
+import Bag from "../src/Bag";
+import Passenger from "../src/Passenger";
+import Plane from "../src/Plane";
 
+describe("Plane", () => {
   test("is created", () => {
     const plane = new Plane("Type");
     expect(plane.type).toBe("Type");

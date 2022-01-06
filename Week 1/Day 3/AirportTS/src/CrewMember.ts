@@ -14,13 +14,6 @@ class CrewMember extends Traveller {
   constructor(name: string, position: string, staffNumber: string) {
     super(name);
 
-    if (
-      typeof name != "string" ||
-      typeof position != "string" ||
-      typeof staffNumber != "string"
-    )
-      throw new TypeError("Name, Position, and Staff Number must be strings");
-
     this.position = position;
     this.staffNumber = staffNumber;
   }

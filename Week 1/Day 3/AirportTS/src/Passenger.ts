@@ -14,15 +14,6 @@ class Passenger extends Traveller {
   constructor(name: string, passportNumber: string, seatNumber: string) {
     super(name);
 
-    if (
-      typeof name != "string" ||
-      typeof passportNumber != "string" ||
-      typeof seatNumber != "string"
-    )
-      throw new TypeError(
-        "Name, Passport Number, and Seat Number must be strings"
-      );
-
     this.passportNumber = passportNumber;
     this.seatNumber = seatNumber;
   }

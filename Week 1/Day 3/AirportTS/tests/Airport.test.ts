@@ -1,4 +1,4 @@
-const Airport = require("../src/Airport");
+import Airport from "../src/Airport";
 
 describe("Airport", () => {
   test("is created", () => {
