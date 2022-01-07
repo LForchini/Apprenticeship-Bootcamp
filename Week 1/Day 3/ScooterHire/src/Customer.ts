@@ -1,6 +1,7 @@
 import User from "./User";
 import Scooter from "./Scooter";
 import Trip from "./Trip";
+import Issue from "./Issue";
 
 export default class Customer extends User {
   static customers: Customer[] = [];
@@ -41,8 +42,9 @@ export default class Customer extends User {
 
   /**
    * End the current trip and call the payment processor function.
+   * @param issue An optional issue to add to the scooter.
    */
-  endTrip() {
+  endTrip(issue: Issue | null) {
     if (!this.current_trip) throw new TypeError("No current trip");
 
     this.trips.push(this.current_trip);
@@ -54,6 +56,10 @@ export default class Customer extends User {
       this.current_trip.scooter.pence_per_minute *
       this.current_trip.travel_time;
     this.current_trip.end();
+
+    if (issue) {
+      this.current_trip.scooter.issues.push(issue);
+    }
 
     this.current_trip = null;
   }
