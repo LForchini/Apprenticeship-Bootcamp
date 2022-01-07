@@ -13,6 +13,9 @@ describe("Customer", () => {
     const customer: Customer = new Customer("Name", "Address", () => {});
     const scooter: Scooter = new Scooter(1);
     customer.reserve(scooter);
+    expect(() => {
+      customer.reserve(scooter);
+    }).toThrowError("Already on a trip");
     expect(customer.current_trip).not.toBe(null);
     expect(customer.current_trip?.status).toBe("Reserved");
     if (customer.current_trip)

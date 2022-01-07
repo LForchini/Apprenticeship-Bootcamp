@@ -18,9 +18,24 @@ describe("Repair Crew", () => {
     expect(RepairCrew.staff[issue.assigned_index]).toBe(repairCrew);
   });
 
+  test("cannot be assigned to an already assigned task", () => {
+    const repairCrew: RepairCrew = new RepairCrew("Name", "Address");
+    const issue: Issue = new Issue("Descrition");
+    repairCrew.assign(issue);
+    expect(() => {
+      repairCrew.assign(issue);
+    }).toThrowError("Issue already assigned");
+    expect(repairCrew.assigned.length).toBe(1);
+    expect(repairCrew.assigned[0]).toBe(issue);
+    expect(RepairCrew.staff[issue.assigned_index]).toBe(repairCrew);
+  });
+
   test("can resolve simple tasks", () => {
     const repairCrew: RepairCrew = new RepairCrew("Name", "Address");
     const issue: Issue = new Issue("Descrition");
+    expect(() => {
+      repairCrew.resolve(issue);
+    }).toThrowError("Issue is not assigned to this crew member");
     repairCrew.assign(issue);
     repairCrew.resolve(issue);
     expect(issue.status).toBe("Resolved");

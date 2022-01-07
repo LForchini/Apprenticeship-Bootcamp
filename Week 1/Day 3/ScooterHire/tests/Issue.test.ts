@@ -1,5 +1,6 @@
 import Issue from "../src/Issue";
 import RepairCrew from "../src/RepairCrew";
+import Scooter from "../src/Scooter";
 
 describe("Issue", () => {
   test("is created and added to the list", () => {
@@ -22,5 +23,15 @@ describe("Issue", () => {
     const issue: Issue = new Issue("Description");
     issue.resolve();
     expect(issue.status).toBe("Resolved");
+  });
+
+  test("can be resolved with a scooter", () => {
+    const issue: Issue = new Issue("Description");
+    const scooter: Scooter = new Scooter(1);
+    issue.scooter = scooter;
+    scooter.issues.push(issue);
+    issue.resolve();
+    expect(issue.status).toBe("Resolved");
+    expect(scooter.issues.length).toBe(0);
   });
 });
