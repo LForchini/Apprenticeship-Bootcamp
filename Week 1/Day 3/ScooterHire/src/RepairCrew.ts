@@ -1,7 +1,7 @@
 import Issue from "./Issue";
 import User from "./User";
 
-class RepairCrew extends User {
+export default class RepairCrew extends User {
   assigned: Issue[] = [];
   static staff: RepairCrew[] = [];
 
@@ -43,5 +43,3 @@ class RepairCrew extends User {
       issue.assigned_index = RepairCrew.staff.indexOf(this);
   }
 }
-
-export = RepairCrew;

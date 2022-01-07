@@ -2,7 +2,7 @@ import User from "./User";
 import Scooter from "./Scooter";
 import Trip from "./Trip";
 
-class Customer extends User {
+export default class Customer extends User {
   static customers: Customer[] = [];
 
   payment_processor: Function;
@@ -70,5 +70,3 @@ class Customer extends User {
     this.current_trip.travel_time += actual_travel_time;
   }
 }
-
-export = Customer;

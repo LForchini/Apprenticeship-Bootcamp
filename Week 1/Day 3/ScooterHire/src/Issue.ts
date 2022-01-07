@@ -1,7 +1,7 @@
 import RepairCrew from "./RepairCrew";
 import Scooter from "./Scooter";
 
-class Issue {
+export default class Issue {
   static issues: Issue[] = [];
 
   description: string;
@@ -33,5 +33,3 @@ class Issue {
       this.scooter.issues = this.scooter.issues.filter((x) => x != this);
   }
 }
-
-export = Issue;

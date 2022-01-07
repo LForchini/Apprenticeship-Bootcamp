@@ -1,7 +1,7 @@
 import Issue from "./Issue";
 import Trip from "./Trip";
 
-class Scooter {
+export default class Scooter {
   charge: number;
   miles_per_percent: number;
   pence_per_minute: number;
@@ -35,4 +35,4 @@ class Scooter {
   }
 }
 
-export = Scooter;
+// export = Scooter;

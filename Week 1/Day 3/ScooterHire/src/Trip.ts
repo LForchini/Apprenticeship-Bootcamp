@@ -1,7 +1,7 @@
 import Customer from "./Customer";
 import Scooter from "./Scooter";
 
-class Trip {
+export default class Trip {
   status: string;
   customer_index: number = 0;
   scooter: Scooter;
@@ -30,5 +30,3 @@ class Trip {
     this.status = "Finished";
   }
 }
-
-export = Trip;

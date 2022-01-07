@@ -1,4 +1,4 @@
-abstract class User {
+export default abstract class User {
   name: string;
   address: string;
 
@@ -7,5 +7,3 @@ abstract class User {
     this.address = address;
   }
 }
-
-export = User;
