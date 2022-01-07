@@ -32,10 +32,11 @@ class Issue {
   markAsResolved()
 }
 
-Customer "1" -- "*" Trip
-Trip "*" -- "1" Scooter
-Issue "*" -- "1" Scooter
-RepairCrew "1" -- "*" Issue
+Customer "1" -- "*" Trip : goes on
+Customer "1" -- "*" Issue : creates
+Trip "*" -- "1" Scooter : participates
+Issue "*" -- "1" Scooter : has
+RepairCrew "1" -- "*" Issue : is assigned to
 User <|-- Customer
 User <|-- RepairCrew
 

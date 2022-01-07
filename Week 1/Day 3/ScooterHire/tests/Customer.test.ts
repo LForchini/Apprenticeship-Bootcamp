@@ -1,4 +1,5 @@
 import Customer from "../src/Customer";
+import Issue from "../src/Issue";
 import Scooter from "../src/Scooter";
 
 describe("Customer", () => {
@@ -60,6 +61,21 @@ describe("Customer", () => {
     expect(customer.trips.length).toBe(1);
     expect(customer.trips[0].status).toBe("Finished");
     expect(scooter.trip_history[0]).toBe(customer.trips[0]);
+  });
+
+  test("can end the trip with an issue", () => {
+    const customer: Customer = new Customer("Name", "Address", () => {});
+    const scooter: Scooter = new Scooter(1);
+    const issue: Issue = new Issue("Broken", scooter);
+    customer.reserve(scooter);
+    customer.startTrip();
+    customer.endTrip(issue);
+    expect(customer.current_trip).toBe(null);
+    expect(customer.trips.length).toBe(1);
+    expect(customer.trips[0].status).toBe("Finished");
+    expect(scooter.trip_history[0]).toBe(customer.trips[0]);
+    expect(scooter.issues.length).toBe(1);
+    expect(scooter.issues[0]).toBe(issue);
   });
 
   test("is charged correctly", () => {
