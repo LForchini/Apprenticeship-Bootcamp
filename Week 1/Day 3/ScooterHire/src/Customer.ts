@@ -44,7 +44,7 @@ export default class Customer extends User {
    * End the current trip and call the payment processor function.
    * @param issue An optional issue to add to the scooter.
    */
-  endTrip(issue: Issue | null) {
+  endTrip(issue: Issue | null = null) {
     if (!this.current_trip) throw new TypeError("No current trip");
 
     this.trips.push(this.current_trip);
