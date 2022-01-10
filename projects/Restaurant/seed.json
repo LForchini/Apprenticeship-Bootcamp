@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Bayroot",
+    "image": "https://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/England/Brighton/brighton-restaurants-hotel-du-vin-bistro.jpg",
+    "menus": [
+      {
+        "title": "Grill",
+        "items": [
+          {
+            "name": "Houmous Shawarma Lamb",
+            "price": 650
+          },
+          {
+            "name": "Lamb Parcels",
+            "price": 570
+          },
+          {
+            "name": "Meat Balls (Kebbeh)",
+            "price": 650
+          },
+          {
+            "name": "Falafel (v)",
+            "price": 500
+          }
+        ]
+      },
+      {
+        "title": "Cold Mezza/Starters",
+        "items": [
+          {
+            "name": "Houmous",
+            "price": 500
+          },
+          {
+            "name": "Baba Ganoush (Moutabal) (v)",
+            "price": 570
+          },
+          {
+            "name": "Stuffed Vine Leaves (Warak Enab)",
+            "price": 570
+          }
+        ]
+      }
+    ]
+  }
+]
