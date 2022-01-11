@@ -1,4 +1,5 @@
-import { Database, Statement } from "sqlite3";
+import sqlite3 from "sqlite3";
+import { Database, open } from "sqlite";
 
 interface MenuItem {
   name: string;
@@ -17,71 +18,87 @@ export interface Restaurant {
 }
 
 export class DAO {
-  database: Database;
+  database: Database<sqlite3.Database, sqlite3.Statement> | null = null;
+  db_file_path: string;
 
   constructor(database_file_path: string) {
-    this.database = new Database(database_file_path, (err) => {
-      if (err) console.error(err);
+    this.db_file_path = database_file_path;
+  }
+
+  async loadDatabase() {
+    this.database = await open({
+      filename: this.db_file_path,
+      driver: sqlite3.Database,
     });
   }
 
   async readJSON(restaurants: Restaurant[]) {
-    restaurants.forEach((restaurant: Restaurant) => {
-      let stmt: Statement = this.database.prepare(
-        "INSERT INTO Restaurants (name, imagelink) VALUES (?, ?);"
+    if (!this.database) return;
+
+    for (let i = 0; i < restaurants.length; i++) {
+      await this.database?.run(
+        "INSERT INTO Restaurants (Name, Imagelink) VALUES (?, ?)",
+        restaurants[i].name,
+        restaurants[i].image
       );
-      stmt.run(restaurant.name, restaurant.image);
-      stmt.finalize();
-
-      const restaurant_id = this.database.get(
-        "SELECT id FROM Restaurants WHERE Name = ?",
-        restaurant.name
+      const restaurant_index: number | undefined = await this.database?.get(
+        "SELECT Id FROM Restaurants WHERE Name = ?",
+        restaurants[i].name
       );
-
-      restaurant.menus.forEach((menu: Menu) => {
-        let stmt: Statement = this.database.prepare(
-          "INSERT INTO Menus (name, restaurantId) VALUES (?, ?);"
+      for (let j = 0; j < restaurants[i].menus.length; j++) {
+        await this.database?.run(
+          "INSERT INTO Menus (Name, RestaurantId) VALUES (?, ?)",
+          restaurants[i].menus[j].title,
+          restaurant_index
         );
-        stmt.run(menu.title, restaurant_id);
-        stmt.finalize();
-
-        const menu_id = this.database.get(
-          "SELECT id FROM Menus WHERE Name = ?",
-          menu.title
+        const menu_index: number | undefined = await this.database?.get(
+          "SELECT Id FROM Menus WHERE Name = ?",
+          restaurants[i].menus[j].title
         );
-
-        menu.items.forEach((menuItem: MenuItem) => {
-          let stmt: Statement = this.database.prepare(
-            "INSERT INTO MenuItems (name, price, menuId) VALUES (?, ?, ?);"
+        for (let k = 0; k < restaurants[i].menus[j].items.length; k++) {
+          await this.database?.run(
+            "INSERT INTO MenuItems (Name, Price, MenuId) VALUES (?, ?, ?)",
+            restaurants[i].menus[j].items[k].name,
+            restaurants[i].menus[j].items[k].price,
+            menu_index
           );
-          stmt.run(menuItem.name, menuItem.price, menu_id);
-          stmt.finalize();
-        });
-      });
-    });
+        }
+      }
+    }
   }
 
   async close() {
-    this.database.close();
+    if (this.database) this.database.close();
   }
 
-  createTables() {
-    this.database.exec(
+  async createTables() {
+    if (!this.database) return;
+
+    //await this.database.exec("DROP TABLE Restaurants;");
+    await this.database.exec(
       "CREATE TABLE IF NOT EXISTS Restaurants (Id INTEGER PRIMARY KEY, Name TEXT, Imagelink TEXT);"
     );
-    this.database.exec(
+    //await this.database.exec("DROP TABLE Menus;");
+    await this.database.exec(
       "CREATE TABLE IF NOT EXISTS Menus (Id INTEGER PRIMARY KEY, Name TEXT, RestaurantId INTEGER, FOREIGN KEY (RestaurantId) REFERENCES Restaurants(Id));"
     );
-    this.database.exec(
+    //await this.database.exec("DROP TABLE MenuItems;");
+    await this.database.exec(
       "CREATE TABLE IF NOT EXISTS MenuItems (Id INTEGER PRIMARY KEY, Name TEXT, Price INTEGER, MenuId INTEGER, FOREIGN KEY (MenuId) REFERENCES Menus(Id));"
     );
   }
 
-  get(sql: string, callback: Function) {
-    this.database.get(sql, callback);
+  async get(sql: string, ...args: any[]): Promise<any> {
+    if (this.database) return await this.database.get(sql, ...args);
+    return null;
   }
 
-  all(sql: string, callback: Function) {
-    this.database.all(sql, callback);
+  async all(sql: string, ...args: any[]): Promise<any[]> {
+    if (this.database) return await this.database.all(sql, ...args);
+    return [];
+  }
+
+  async run(sql: string, ...args: any[]): Promise<void> {
+    if (this.database) await this.database.run(sql, ...args);
   }
 }

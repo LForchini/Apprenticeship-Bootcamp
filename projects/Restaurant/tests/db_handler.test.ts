@@ -3,31 +3,36 @@ import { DAO, Restaurant } from "../src/db_handler";
 describe("SQLite3", () => {
   let test_dao: DAO;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     test_dao = new DAO(":memory:");
-    test_dao.createTables();
+    await test_dao.loadDatabase();
+    await test_dao.createTables();
   });
 
   afterEach(() => {
     test_dao.close();
   });
 
-  it("can load a database with JSON data", (done) => {
+  it("can load a database with JSON data", async () => {
     const restaurants: Restaurant[] = require("../seed.json");
-    test_dao.readJSON(restaurants);
-    test_dao.all(
-      "SELECT * FROM Restaurants ORDER BY Name ASC LIMIT 1;",
-      (err: Error, rows: any[]) => {
-        expect(rows.length).toBe(1);
-        expect(rows.map((x) => x.Name)).toContain("Balthazar");
-        test_dao.get(
-          "SELECT COUNT(id) AS total FROM restaurants;",
-          (err: Error, count: any) => {
-            expect(count.total).toBe(8);
-            done();
-          }
-        );
-      }
+    await test_dao.readJSON(restaurants);
+    const result: any[] = await test_dao.all(
+      "SELECT * FROM Restaurants ORDER BY Name ASC LIMIT 1;"
     );
+    expect(result.length).toBe(1);
+    expect(result[0].Name).toBe("Balthazar");
+  });
+
+  it("supports insertions and selctions", async () => {
+    await test_dao.run(
+      "INSERT INTO Restaurants (Name, Imagelink) VALUES (?, ?)",
+      "Name",
+      "Imagelink"
+    );
+    const result = await test_dao.get(
+      "SELECT * FROM Restaurants WHERE Name = ?;",
+      "Name"
+    );
+    expect(result.Name).toBe("Name");
   });
 });
