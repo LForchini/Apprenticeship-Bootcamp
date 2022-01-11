@@ -63,8 +63,9 @@ export class DAO {
         );
         const menu_index: number | undefined = (
           await this.database?.get(
-            "SELECT Id FROM Menus WHERE Name = ?",
-            restaurants[i].menus[j].title
+            "SELECT Id FROM Menus WHERE Name = ? AND RestaurantId = ?",
+            restaurants[i].menus[j].title,
+            restaurant_index
           )
         ).Id;
         for (let k = 0; k < restaurants[i].menus[j].items.length; k++) {
