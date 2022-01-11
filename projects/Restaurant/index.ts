@@ -1,5 +1,9 @@
 import { DAO } from "./src/db_handler";
 
-const d = new DAO("./restaurants.sqlite");
-d.createTables();
-d.readJSON(require("./seed.json"));
+async function GenerateDatabase(file: string) {
+  const dao = new DAO("./restaurants.sqlite");
+  await dao.loadDatabase();
+  await dao.createTables();
+  await dao.readJSON(require(file));
+  await dao.close();
+}

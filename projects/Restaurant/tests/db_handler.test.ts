@@ -16,11 +16,16 @@ describe("SQLite3", () => {
   it("can load a database with JSON data", async () => {
     const restaurants: Restaurant[] = require("../seed.json");
     await test_dao.readJSON(restaurants);
-    const result: any[] = await test_dao.all(
+    const result1: any[] = await test_dao.all(
       "SELECT * FROM Restaurants ORDER BY Name ASC LIMIT 1;"
     );
-    expect(result.length).toBe(1);
-    expect(result[0].Name).toBe("Balthazar");
+    expect(result1.length).toBe(1);
+    expect(result1[0].Name).toBe("Balthazar");
+    const result2: any[] = await test_dao.all(
+      "SELECT * FROM Menus ORDER BY Name ASC LIMIT 1;"
+    );
+    expect(result2.length).toBeGreaterThan(0);
+    expect(result2[0].MenuId).not.toBe("NULL");
   });
 
   it("supports insertions and selctions", async () => {

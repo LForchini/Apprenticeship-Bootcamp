@@ -49,20 +49,24 @@ export class DAO {
         restaurants[i].name,
         restaurants[i].image
       );
-      const restaurant_index: number | undefined = await this.database?.get(
-        "SELECT Id FROM Restaurants WHERE Name = ?",
-        restaurants[i].name
-      );
+      const restaurant_index: number | undefined = (
+        await this.database?.get(
+          "SELECT Id FROM Restaurants WHERE Name = ?",
+          restaurants[i].name
+        )
+      ).Id;
       for (let j = 0; j < restaurants[i].menus.length; j++) {
         await this.database?.run(
           "INSERT INTO Menus (Name, RestaurantId) VALUES (?, ?)",
           restaurants[i].menus[j].title,
           restaurant_index
         );
-        const menu_index: number | undefined = await this.database?.get(
-          "SELECT Id FROM Menus WHERE Name = ?",
-          restaurants[i].menus[j].title
-        );
+        const menu_index: number | undefined = (
+          await this.database?.get(
+            "SELECT Id FROM Menus WHERE Name = ?",
+            restaurants[i].menus[j].title
+          )
+        ).Id;
         for (let k = 0; k < restaurants[i].menus[j].items.length; k++) {
           await this.database?.run(
             "INSERT INTO MenuItems (Name, Price, MenuId) VALUES (?, ?, ?)",
