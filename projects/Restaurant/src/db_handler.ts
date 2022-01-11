@@ -76,4 +76,12 @@ export class DAO {
       "CREATE TABLE IF NOT EXISTS MenuItems (Id INTEGER PRIMARY KEY, Name TEXT, Price INTEGER, MenuId INTEGER, FOREIGN KEY (MenuId) REFERENCES Menus(Id));"
     );
   }
+
+  get(sql: string, callback: Function) {
+    this.database.get(sql, callback);
+  }
+
+  all(sql: string, callback: Function) {
+    this.database.all(sql, callback);
+  }
 }
