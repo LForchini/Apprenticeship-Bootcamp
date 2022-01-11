@@ -17,6 +17,7 @@ export interface Restaurant {
   menus: Menu[];
 }
 
+// ToDo Implements Database
 export class DAO {
   database: Database<sqlite3.Database, sqlite3.Statement> | null = null;
   db_file_path: string;
@@ -25,6 +26,9 @@ export class DAO {
     this.db_file_path = database_file_path;
   }
 
+  /**
+   * Load the database
+   */
   async loadDatabase() {
     this.database = await open({
       filename: this.db_file_path,
@@ -32,7 +36,11 @@ export class DAO {
     });
   }
 
-  async readJSON(restaurants: Restaurant[]) {
+  /**
+   * Loads an array of restaurants into the database
+   * @param restaurants Restaurants array to write to the DB
+   */
+  async readJSON(restaurants: Restaurant[]): Promise<void> {
     if (!this.database) return;
 
     for (let i = 0; i < restaurants.length; i++) {
@@ -71,18 +79,18 @@ export class DAO {
     if (this.database) this.database.close();
   }
 
+  /**
+   * Creates basic Restaurant, Menu, and MenuItem tables
+   */
   async createTables() {
     if (!this.database) return;
 
-    //await this.database.exec("DROP TABLE Restaurants;");
     await this.database.exec(
       "CREATE TABLE IF NOT EXISTS Restaurants (Id INTEGER PRIMARY KEY, Name TEXT, Imagelink TEXT);"
     );
-    //await this.database.exec("DROP TABLE Menus;");
     await this.database.exec(
       "CREATE TABLE IF NOT EXISTS Menus (Id INTEGER PRIMARY KEY, Name TEXT, RestaurantId INTEGER, FOREIGN KEY (RestaurantId) REFERENCES Restaurants(Id));"
     );
-    //await this.database.exec("DROP TABLE MenuItems;");
     await this.database.exec(
       "CREATE TABLE IF NOT EXISTS MenuItems (Id INTEGER PRIMARY KEY, Name TEXT, Price INTEGER, MenuId INTEGER, FOREIGN KEY (MenuId) REFERENCES Menus(Id));"
     );
