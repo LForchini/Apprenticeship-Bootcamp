@@ -25,7 +25,7 @@ describe("SQLite3", () => {
       "SELECT * FROM Menus ORDER BY Name ASC LIMIT 1;"
     );
     expect(result2.length).toBeGreaterThan(0);
-    expect(result2[0].MenuId).not.toBe("NULL");
+    expect(result2[0].RestaurantId).not.toBe("NULL");
   });
 
   it("supports insertions and selctions", async () => {
