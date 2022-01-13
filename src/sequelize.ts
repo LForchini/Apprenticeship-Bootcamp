@@ -2,7 +2,8 @@ import { Sequelize } from "sequelize-typescript";
 
 const sequelize = new Sequelize("database", "username", "password", {
   dialect: "sqlite",
-  storage: "./restaurants2.sqlite",
+  storage: "./restaurants.sqlite",
+  logging: false,
   models: [__dirname + "/models/**/*.model.ts"],
   modelMatch: (filename, member) => {
     return (
