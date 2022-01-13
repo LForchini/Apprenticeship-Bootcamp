@@ -1,113 +1,41 @@
-import { openDB } from "../src/db";
-import { Restaurant } from "../src/Restaurant";
-import fs from "fs/promises";
-import { Database } from "sqlite";
+import Restaurant from "../src/models/Restaurant.model";
+import { sequelize } from "../src/sequelize";
 
 describe("Restaurant", () => {
   beforeAll(async () => {
-    const db: Database = await openDB();
-    db.exec(
-      "CREATE TABLE IF NOT EXISTS Restaurants (Id INTEGER PRIMARY KEY, Name TEXT, Imagelink TEXT)"
-    );
-    db.close();
+    await sequelize.sync({ force: true });
   });
 
-  afterAll(async () => {
-    const db: Database = await openDB();
-    fs.unlink(db.config.filename);
-  });
-
-  it("is created", async () => {
+  it("can be created", async () => {
     const restaurant: Restaurant = new Restaurant({
-      Name: "Name",
-      Imagelink: "Imagelink",
+      name: "Name",
+      image: "Image",
     });
-    await restaurant.generateId();
-
-    expect(restaurant.Id).toBe(1);
-  });
-
-  it("can be saved", async () => {
-    const restaurant: Restaurant = new Restaurant({
-      Name: "Name",
-      Imagelink: "Imagelink",
-    });
-    await restaurant.generateId();
-
     await restaurant.save();
 
-    expect(restaurant.Id).toBe(1);
-
-    const db: Database = await openDB();
-    const all: any[] = await db.all("SELECT * FROM Restaurants;");
-    expect(all.length).toBe(1);
+    expect(restaurant.name).toBe("Name");
+    expect(restaurant.image).toBe("Image");
+    expect(restaurant.id).not.toBe(null);
   });
 
-  it("to be persistent", async () => {
-    const db: Database = await openDB();
-    const all: any[] = await db.all("SELECT * FROM Restaurants;");
-    expect(all.length).toBe(1);
-  });
-
-  it("can be loaded", async () => {
-    const restaurant: Restaurant = new Restaurant({
-      Id: 1,
-      Name: "Name",
-      Imagelink: "Imagelink",
+  it("can have multiple instances", async () => {
+    const restaurant1: Restaurant = new Restaurant({
+      name: "Name 1",
+      image: "Image 1",
     });
-    await restaurant.generateId();
-
-    restaurant.Name = "Name2";
-    await restaurant.load();
-
-    expect(restaurant.Name).toBe("Name");
-  });
-
-  it("can be deleted", async () => {
-    const restaurant: Restaurant = new Restaurant({
-      Id: 1,
-      Name: "Name",
-      Imagelink: "Imagelink",
+    await restaurant1.save();
+    const restaurant2: Restaurant = new Restaurant({
+      name: "Name 2",
+      image: "Image 2",
     });
-    await restaurant.generateId();
-    await restaurant.delete();
+    await restaurant2.save();
 
-    const db: Database = await openDB();
-    const all: any[] = await db.all("SELECT * FROM Restaurants;");
-    expect(all.length).toBe(0);
+    expect(restaurant1.name).toBe("Name 1");
+    expect(restaurant1.image).toBe("Image 1");
+    expect(restaurant1.id).not.toBe(null);
 
-    await restaurant.save();
-  });
-
-  it("can be updated", async () => {
-    const restaurant: Restaurant = new Restaurant({
-      Id: 1,
-      Name: "Name",
-      Imagelink: "Imagelink",
-    });
-    await restaurant.generateId();
-
-    restaurant.Name = "Other Name";
-
-    await restaurant.save();
-    await restaurant.load();
-
-    expect(restaurant.Name).toBe("Other Name");
-
-    await restaurant.save();
-  });
-
-  it("generates an appropriate ID", async () => {
-    const restaurant: Restaurant = new Restaurant({
-      Id: 100,
-      Name: "Name",
-      Imagelink: "Imagelink",
-    });
-    await restaurant.generateId();
-    await restaurant.save();
-
-    expect(restaurant.Id).toBe(2);
-
-    await restaurant.save();
+    expect(restaurant2.name).toBe("Name 2");
+    expect(restaurant2.image).toBe("Image 2");
+    expect(restaurant2.id).not.toBe(restaurant1.id);
   });
 });
