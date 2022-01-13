@@ -15,15 +15,22 @@ export default abstract class Saved {
   }
 
   async generateId() {
-    if (this.argId !== undefined) {
+    console.log("Generating id", this.argId, this);
+    if (this.argId) {
       console.log("Requested with Id before get", this.argId);
       const db = await openDB();
       const res = await db.get(
         `SELECT * FROM ${this.table} WHERE Id = ?;`,
         this.argId
       );
-      console.log("Requested with Id", res, this.argId);
-      if (res !== undefined) {
+      console.log(
+        "Requested with Id",
+        res,
+        this.argId,
+        this.Id,
+        Saved.ids.get(this.table)
+      );
+      if (res) {
         this.Id = this.argId;
       } else {
         Saved.ids.set(this.table, (Saved.ids.get(this.table) || 0) + 1);
@@ -103,7 +110,6 @@ export default abstract class Saved {
       `SELECT * FROM ${this.table} WHERE Id = ?`,
       this.Id
     );
-    console.log(this.Id, res);
     db.close();
     return res !== undefined;
   }

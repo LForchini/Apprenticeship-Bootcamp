@@ -15,6 +15,7 @@ describe("Restaurant", () => {
   afterAll(async () => {
     const db: Database = await openDB();
     fs.unlink(db.config.filename);
+    db.close();
   });
 
   it("is created", async () => {
@@ -36,7 +37,7 @@ describe("Restaurant", () => {
 
     await restaurant.save();
 
-    expect(restaurant.Id).toBe(1);
+    expect(restaurant.Id).toBe(2);
 
     const db: Database = await openDB();
     const all: any[] = await db.all("SELECT * FROM Restaurants;");
@@ -51,7 +52,7 @@ describe("Restaurant", () => {
 
   it("can be loaded", async () => {
     const restaurant: Restaurant = new Restaurant({
-      Id: 1,
+      Id: 2,
       Name: "Name",
       Imagelink: "Imagelink",
     });
@@ -65,7 +66,7 @@ describe("Restaurant", () => {
 
   it("can be deleted", async () => {
     const restaurant: Restaurant = new Restaurant({
-      Id: 1,
+      Id: 2,
       Name: "Name",
       Imagelink: "Imagelink",
     });
@@ -81,7 +82,7 @@ describe("Restaurant", () => {
 
   it("can be updated", async () => {
     const restaurant: Restaurant = new Restaurant({
-      Id: 1,
+      Id: 2,
       Name: "Name",
       Imagelink: "Imagelink",
     });
@@ -106,7 +107,7 @@ describe("Restaurant", () => {
     await restaurant.generateId();
     await restaurant.save();
 
-    expect(restaurant.Id).toBe(2);
+    expect(restaurant.Id).toBe(3);
 
     await restaurant.save();
   });
