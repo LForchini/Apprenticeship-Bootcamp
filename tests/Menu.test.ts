@@ -22,29 +22,21 @@ describe("Menu", () => {
       name: "Name",
       image: "Image",
     });
-    await restaurant?.save();
-    expect(restaurant?.id).not.toBe(null);
+    await restaurant.save();
 
     const menu: Menu = new Menu({
       title: "Title",
-      restaurantId: restaurant?.id,
+      restaurantId: restaurant.id,
     });
-
     await menu.save();
 
-    const ret_restaurant = await Restaurant.findOne({ include: [Menu] });
-    const ret_menu = await Menu.findOne({
-      include: [Restaurant],
-      where: { restaurantId: ret_restaurant?.id },
-    });
+    await restaurant.reload({ include: [Menu] });
+    await menu.reload({ include: [Restaurant] });
 
     expect(menu.restaurantId).toBe(restaurant.id);
-    expect(ret_menu?.restaurantId).toBe(ret_restaurant?.id);
-    expect(ret_menu?.restaurant).not.toBe(undefined);
-    expect(
-      ret_menu?.restaurant.equals(ret_restaurant as Restaurant)
-    ).toBeTruthy();
-    expect(ret_menu?.id).not.toBe(null);
+    expect(menu.restaurant.equals(restaurant)).toBeTruthy();
+    expect(restaurant.menus.length).toBe(1);
+    expect(restaurant.menus[0].equals(menu)).toBeTruthy();
   });
 
   it("can have multiple instances", async () => {

@@ -27,7 +27,6 @@ async function loadSeed() {
       image: restaurant_obj.image,
     });
     await restaurant.save();
-    let menus: Menu[] = [];
 
     restaurant_obj.menus.forEach(async (menu_obj: MenuObj) => {
       const menu = new Menu({
@@ -36,8 +35,6 @@ async function loadSeed() {
         restaurant: restaurant,
       });
       await menu.save();
-      menus.push(menu);
-      let menuItems: MenuItem[] = [];
 
       menu_obj.items.forEach(async (menuItem_obj: MenuItemObj) => {
         const menuItem = new MenuItem({
@@ -47,11 +44,8 @@ async function loadSeed() {
           menu: menu,
         });
         await menuItem.save();
-        menuItems.push(menuItem);
       });
-      await menu.save();
     });
-    await restaurant.save();
   });
 }
 
