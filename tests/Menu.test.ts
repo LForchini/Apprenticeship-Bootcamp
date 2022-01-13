@@ -30,6 +30,33 @@ describe("Menu", () => {
     expect(menu.id).not.toBe(null);
   });
 
+  it("can be created and associated with a restaurant", async () => {
+    const restaurant: Restaurant = new Restaurant({
+      name: "Name",
+      image: "Image",
+    });
+    await restaurant?.save();
+    expect(restaurant?.id).not.toBe(null);
+
+    const menu: Menu = new Menu({
+      title: "Title",
+      restaurantId: restaurant?.id,
+    });
+
+    await menu.save();
+
+    const ret_restaurant = await Restaurant.findOne({ include: [Menu] });
+    const ret_menu = await Menu.findOne({ include: [Restaurant] });
+
+    expect(menu.restaurantId).toBe(restaurant.id);
+    expect(ret_menu?.restaurantId).toBe(ret_restaurant?.id);
+    expect(ret_menu?.restaurant).not.toBe(undefined);
+    expect(
+      ret_menu?.restaurant.equals(ret_restaurant as Restaurant)
+    ).toBeTruthy();
+    expect(ret_menu?.id).not.toBe(null);
+  });
+
   it("can have multiple instances", async () => {
     const Menu1: Menu = new Menu({
       title: "Title",
