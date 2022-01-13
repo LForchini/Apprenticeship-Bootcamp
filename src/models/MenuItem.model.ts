@@ -23,4 +23,10 @@ export default class MenuItem extends Model {
 
   @BelongsTo(() => Menu)
   menu!: Menu;
+
+  @Column(DataType.TEXT)
+  name!: string;
+
+  @Column(DataType.INTEGER)
+  price!: number;
 }
