@@ -23,8 +23,8 @@ export default class Menu extends Model {
   @Column(DataType.INTEGER)
   restaurantId!: number;
 
-  @BelongsTo(() => Restaurant)
-  restaurant_id!: Restaurant;
+  @BelongsTo(() => Restaurant, "restaurantId")
+  restaurant!: Restaurant;
 
   @Column(DataType.TEXT)
   title!: string;

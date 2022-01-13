@@ -22,6 +22,6 @@ export default class Restaurant extends Model {
   @Column(DataType.TEXT)
   image!: string;
 
-  @HasMany(() => Menu)
+  @HasMany(() => Menu, "restaurantId")
   menus!: Menu[];
 }
