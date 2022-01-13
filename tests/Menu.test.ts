@@ -7,30 +7,17 @@ describe("Menu", () => {
     await sequelize.sync({ force: true });
   });
 
-  it("can be created and associated with a restaurant", async () => {
-    const restaurant: Restaurant = new Restaurant({
-      name: "Name",
-      image: "Image",
-    });
-    await restaurant.save();
-    expect(restaurant.id).not.toBe(null);
-
+  it("can be created", async () => {
     const menu: Menu = new Menu({
       title: "Title",
-      restaurantId: restaurant.id,
     });
     await menu.save();
 
-    const getResults = await Restaurant.findByPk(menu.restaurantId);
-
     expect(menu.title).toBe("Title");
-    expect(menu.restaurantId).toBe(restaurant.id);
-    expect(getResults).not.toBe(null);
-    expect(getResults?.equals(restaurant)).toBeTruthy();
     expect(menu.id).not.toBe(null);
   });
 
-  it("can be created and associated with a restaurant", async () => {
+  it("can be associated with a restaurant", async () => {
     const restaurant: Restaurant = new Restaurant({
       name: "Name",
       image: "Image",
@@ -46,7 +33,10 @@ describe("Menu", () => {
     await menu.save();
 
     const ret_restaurant = await Restaurant.findOne({ include: [Menu] });
-    const ret_menu = await Menu.findOne({ include: [Restaurant] });
+    const ret_menu = await Menu.findOne({
+      include: [Restaurant],
+      where: { restaurantId: ret_restaurant?.id },
+    });
 
     expect(menu.restaurantId).toBe(restaurant.id);
     expect(ret_menu?.restaurantId).toBe(ret_restaurant?.id);
