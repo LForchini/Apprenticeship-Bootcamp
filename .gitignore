@@ -105,3 +105,4 @@ dist
 
 # VS Code setting folder
 .vscode
+*.js
