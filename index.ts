@@ -2,7 +2,8 @@ import Menu from "./src/models/Menu.model";
 import MenuItem from "./src/models/MenuItem.model";
 import Restaurant from "./src/models/Restaurant.model";
 import { sequelize } from "./src/sequelize";
-import express, { raw, Request, Response } from "express";
+import express, { Request, Response } from "express";
+import { check, validationResult } from "express-validator";
 
 const app = express();
 const PORT: number = 3000;
@@ -89,10 +90,21 @@ app.get("/restaurant/:id", (req: Request, res: Response) => {
   });
 });
 
-app.post("/restaurants", (req: Request, res: Response) => {
-  const raw_restaurant: RestaurantObj = req.body;
+app.post(
+  "/restaurants",
+  [
+    check("name").not().isEmpty().trim().escape(),
+    check("name").isAlpha("en-GB").isLength({ min: 1, max: 50 }),
+    check("image").isURL().trim(),
+  ],
+  (req: Request, res: Response) => {
+    const raw_restaurant: RestaurantObj = req.body;
 
-  if (raw_restaurant.image && raw_restaurant.name) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const restaurant: Restaurant = new Restaurant({
       name: raw_restaurant.name,
       image: raw_restaurant.image,
@@ -100,10 +112,8 @@ app.post("/restaurants", (req: Request, res: Response) => {
     restaurant.save().then(() => {
       res.sendStatus(201);
     });
-  } else {
-    res.sendStatus(400);
   }
-});
+);
 
 app.delete("/restaurant/:id", (req: Request, res: Response) => {
   Restaurant.findByPk(req.params.id).then((restaurant) => {
@@ -117,20 +127,27 @@ app.delete("/restaurant/:id", (req: Request, res: Response) => {
   });
 });
 
-app.put("/restaurant/:id", (req: Request, res: Response) => {
-  Restaurant.findByPk(req.params.id).then((restaurant) => {
-    if (restaurant) {
-      if (req.body.name) {
-        restaurant.name = req.body.name;
+app.put(
+  "/restaurant/:id",
+  [
+    check("name").isAlpha("en-GB").isLength({ min: 1, max: 50 }),
+    check("image").isURL().trim(),
+  ],
+  (req: Request, res: Response) => {
+    Restaurant.findByPk(req.params.id).then((restaurant) => {
+      if (restaurant) {
+        if (req.body.name) {
+          restaurant.name = req.body.name;
+        }
+        if (req.body.image) {
+          restaurant.image = req.body.image;
+        }
+        restaurant.save().then(() => {
+          res.sendStatus(204);
+        });
+      } else {
+        res.sendStatus(404);
       }
-      if (req.body.image) {
-        restaurant.image = req.body.image;
-      }
-      restaurant.save().then(() => {
-        res.sendStatus(204);
-      });
-    } else {
-      res.sendStatus(404);
-    }
-  });
-});
+    });
+  }
+);
