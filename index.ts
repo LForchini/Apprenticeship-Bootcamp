@@ -2,6 +2,12 @@ import Menu from "./src/models/Menu.model";
 import MenuItem from "./src/models/MenuItem.model";
 import Restaurant from "./src/models/Restaurant.model";
 import { sequelize } from "./src/sequelize";
+import express, { Request, Response } from "express";
+
+const app = express();
+const PORT: number = 3000;
+
+app.use(express.static("public"));
 
 interface RestaurantObj {
   name: string;
@@ -49,4 +55,19 @@ async function loadSeed() {
   });
 }
 
-loadSeed();
+app.listen(PORT, () => {
+  console.log(`Server started listening at http://localhost:${PORT}`);
+});
+
+app.get("/now", (req: Request, res: Response) => {
+  const date: Date = new Date();
+  res.send(date);
+});
+
+app.get("/flipcoin", (req: Request, res: Response) => {
+  res.send(Math.random() > 0.5 ? "heads" : "tails");
+});
+
+app.get("/restaurants", (req: Request, res: Response) => {
+  // ToDo
+});
