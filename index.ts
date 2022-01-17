@@ -106,9 +106,27 @@ app.post("/restaurants", (req: Request, res: Response) => {
 });
 
 app.delete("/restaurant/:id", (req: Request, res: Response) => {
-  Restaurant.findByPk(req.params.id, { include: [Menu] }).then((restaurant) => {
+  Restaurant.findByPk(req.params.id).then((restaurant) => {
     if (restaurant) {
       restaurant.destroy().then(() => {
+        res.sendStatus(204);
+      });
+    } else {
+      res.sendStatus(404);
+    }
+  });
+});
+
+app.put("/restaurant/:id", (req: Request, res: Response) => {
+  Restaurant.findByPk(req.params.id).then((restaurant) => {
+    if (restaurant) {
+      if (req.body.name) {
+        restaurant.name = req.body.name;
+      }
+      if (req.body.image) {
+        restaurant.image = req.body.image;
+      }
+      restaurant.save().then(() => {
         res.sendStatus(204);
       });
     } else {
