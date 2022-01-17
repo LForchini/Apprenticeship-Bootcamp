@@ -57,6 +57,9 @@ async function loadSeed() {
 
 app.listen(PORT, () => {
   console.log(`Server started listening at http://localhost:${PORT}`);
+  loadSeed().then(() => {
+    console.log(`Server loaded seed database values`);
+  });
 });
 
 app.get("/now", (req: Request, res: Response) => {
@@ -69,5 +72,7 @@ app.get("/flipcoin", (req: Request, res: Response) => {
 });
 
 app.get("/restaurants", (req: Request, res: Response) => {
-  // ToDo
+  Restaurant.findAll().then((restaurants) => {
+    res.send(restaurants);
+  });
 });
