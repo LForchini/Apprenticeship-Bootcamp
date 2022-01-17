@@ -21,7 +21,7 @@ export default class MenuItem extends Model {
   @Column(DataType.INTEGER)
   menuId!: number;
 
-  @BelongsTo(() => Menu)
+  @BelongsTo(() => Menu, { onDelete: "CASCADE" })
   menu!: Menu;
 
   @Column(DataType.TEXT)

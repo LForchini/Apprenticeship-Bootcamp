@@ -23,7 +23,7 @@ export default class Menu extends Model {
   @Column(DataType.INTEGER)
   restaurantId!: number;
 
-  @BelongsTo(() => Restaurant)
+  @BelongsTo(() => Restaurant, { onDelete: "CASCADE" })
   restaurant!: Restaurant;
 
   @Column(DataType.TEXT)

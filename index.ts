@@ -2,12 +2,14 @@ import Menu from "./src/models/Menu.model";
 import MenuItem from "./src/models/MenuItem.model";
 import Restaurant from "./src/models/Restaurant.model";
 import { sequelize } from "./src/sequelize";
-import express, { Request, Response } from "express";
+import express, { raw, Request, Response } from "express";
 
 const app = express();
 const PORT: number = 3000;
 
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 interface RestaurantObj {
   name: string;
@@ -74,5 +76,43 @@ app.get("/flipcoin", (req: Request, res: Response) => {
 app.get("/restaurants", (req: Request, res: Response) => {
   Restaurant.findAll().then((restaurants) => {
     res.send(restaurants);
+  });
+});
+
+app.get("/restaurant/:id", (req: Request, res: Response) => {
+  Restaurant.findByPk(req.params.id, { include: [Menu] }).then((restaurant) => {
+    if (restaurant) {
+      res.send(restaurant);
+    } else {
+      res.sendStatus(404);
+    }
+  });
+});
+
+app.post("/restaurants", (req: Request, res: Response) => {
+  const raw_restaurant: RestaurantObj = req.body;
+
+  if (raw_restaurant.image && raw_restaurant.name) {
+    const restaurant: Restaurant = new Restaurant({
+      name: raw_restaurant.name,
+      image: raw_restaurant.image,
+    });
+    restaurant.save().then(() => {
+      res.sendStatus(201);
+    });
+  } else {
+    res.sendStatus(400);
+  }
+});
+
+app.delete("/restaurant/:id", (req: Request, res: Response) => {
+  Restaurant.findByPk(req.params.id, { include: [Menu] }).then((restaurant) => {
+    if (restaurant) {
+      restaurant.destroy().then(() => {
+        res.sendStatus(204);
+      });
+    } else {
+      res.sendStatus(404);
+    }
   });
 });
